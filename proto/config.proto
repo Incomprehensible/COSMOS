@@ -1,0 +1,10 @@
+syntax = "proto2";
+
+option java_package = "myrtus.interfaces";
+
+// option java_multiple_files = true;
+option java_outer_classname = "EFCConfig";
+
+message Config {
+    required int64 steps = 1;
+}

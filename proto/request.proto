@@ -1,0 +1,29 @@
+syntax = "proto2";
+
+option java_package = "myrtus.interfaces";
+
+// option java_multiple_files = true;
+option java_outer_classname = "EFCRequest";
+
+message AgentProfile {
+    enum AgentType {
+        EDGE = 0;
+        FOG = 1;
+        CLOUD = 2;
+    }
+
+    // int32 num_neighbours = 1;
+    required float comm_costs = 1;
+    required int64 agent_available_cpu = 2;
+    required int64 agent_available_memory = 3;
+    required int64 agent_utilization_cpu = 4;
+    required AgentType type = 5;
+    required int64 id = 6; // to differentiate between current agent and neighbouring agents
+}
+
+message Request {
+    optional int64 pod_cpu_req = 1;
+    optional int64 pod_mem_req = 2;
+    repeated AgentProfile agents = 3; // contain current agent and neighbouring agents
+    required bool last = 4;
+}

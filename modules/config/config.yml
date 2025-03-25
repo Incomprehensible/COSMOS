@@ -1,0 +1,20 @@
+num_pods: 2500 # must be bigger than or equal to sim_steps
+pods_per_step: 0 # set to 0 for the default value (num_pods/sim_steps)
+sim_steps: 10
+num_edge_devices: 35 # ignored if import_sample is True
+num_fog_nodes: 10 # ignored if import_sample is True
+num_cloud_servers: 5 # ignored if import_sample is True
+behaviour_type: 'random_walk' # 'random_walk', 'aco', 'hba', or 'mlp' (for neural network based decision-making)
+import_graph: True
+graph_sample: EFC1
+nn_sample: 'mlp_config15:31:57.462020.yaml' # needs to be specified for 'mlp' behaviour_type mode 'normal'
+plot_all: True # takes effect if mode is not 'train'
+gen_samples_num: 50 # takes effect if mode == 'gen'
+mode: 'normal' # 'normal' for normal mode, 'gen' for generating samples, 'train' for training
+path_to_dataset: 'generated/dataset'
+frevo_port: 9990
+candidate_evals: 10 # required number of inference requests to evaluate a candidate
+training_results_path: "/home/madnad/Documents/Myrtus/Frevo/Frevo/Results/EFC_test" # to save the best trained model
+evaluate_best_candidate: True # enables running simulation with the best trained model after training session 
+randomized_pod_interval: True # if True, the pods will have a random arrival interval
+mu: 0.5 # parameter µ ∈ (0, 1] defining the frequency of arriving pods

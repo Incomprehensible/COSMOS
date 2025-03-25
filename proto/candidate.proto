@@ -1,0 +1,16 @@
+syntax = "proto2";
+
+option java_package = "myrtus.interfaces";
+
+// option java_multiple_files = true;
+option java_outer_classname = "EFCCandidate";
+
+message Candidate {
+    required int64 input_nodes = 1;
+    required int64 output_nodes = 2;
+    required int64 hidden_nodes = 3;
+    required int64 hidden_layers = 4; 
+    required int64 nodes_per_layer = 5;
+    repeated float biases = 6;
+    repeated float weights = 7;
+}

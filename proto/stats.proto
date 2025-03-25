@@ -1,0 +1,18 @@
+syntax = "proto2";
+
+option java_package = "myrtus.interfaces";
+
+// option java_multiple_files = true;
+option java_outer_classname = "EFCStats";
+
+// overall system performance
+
+message Stats {
+    required float edge_cpu_utilization = 1;
+    required float edge_memory_utilization = 2;
+    required float fog_cpu_utilization = 3;
+    required float fog_memory_utilization = 4;
+    required float fog_dependency = 5;
+    required float cloud_dependency = 6;
+    required float executed_pods_ratio = 7;
+}
