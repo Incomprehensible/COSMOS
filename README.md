@@ -11,6 +11,8 @@ The framework extends [Mesa](https://mesa.readthedocs.io/latest/)’s agent-base
 
 Developed in [Lakeside Labs](https://www.lakeside-labs.com/) in scope of [Myrtus](https://myrtus-project.eu/) (Multi-layer 360 dynamic orchestration and interoperable design environment for compute-continuum systems) project.
 
+<img src="https://myrtus-project.eu/wp-content/uploads/2024/03/orizzontali-01.png" alt="Myrtus Project Logo" width="50%">
+
 
 ## Installation
 
