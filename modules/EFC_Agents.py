@@ -44,6 +44,7 @@ class PodAgent(Agent):
         self.node = node  # Node where the pod is located
         self.exec_Time = exec_time  # Execution Time
         self.TT = 0  # communication cost
+        self.started = False
         self.executed = False
         self.visited_nodes = {node}
         self.path = [node]  # Path of nodes visited
@@ -53,35 +54,42 @@ class PodAgent(Agent):
 
     def step(self):
         if self.executed == False:
-            current_node = self.node
-            current_agent = self.model.network.nodes[current_node]['agent']
-            
-            neighbors = list(self.model.network.neighbors(current_node))
-            neighbor_select = self.behaviour.next_node(current_agent, current_node, neighbors, self.visited_nodes, self.random)
-            if neighbor_select != None:
-                if neighbor_select == self.node:
-                # Stay in the current node if it has enough resources
-                    current_agent.available_cpu -= self.cpu_req
-                    current_agent.available_memory -= self.memory_req
-                    self.executed = True
-                    self.model.executed_pods += 1
-                    self.arrval_Time = self.model.time + self.TT
-                    self.departure_Time = self.arrval_Time + self.exec_Time
-                else:
-                # Attempt to move to a neighboring node with available resources
-                    neighbor_agent = self.model.network.nodes[neighbor_select]['agent']
-                    self.node = neighbor_select
-                    self.visited_nodes.add(self.node)
-                    self.path.append(self.node) 
-                    comm_cost = self.model.comm_costs.get((current_agent.layer, neighbor_agent.layer), 1)
-                    self.TT += comm_cost
-            
-        if self.model.time >= self.departure_Time and self.executed == True:
-            current_agent = self.model.network.nodes[self.node]['agent']
-            current_agent.available_cpu += self.cpu_req
-            current_agent.available_memory += self.memory_req
+            if self.started == False:
+                current_node = self.node
+                current_agent = self.model.network.nodes[current_node]['agent']
+
+                neighbors = list(self.model.network.neighbors(current_node))
+                neighbor_select = self.behaviour.next_node(current_agent, current_node, neighbors, self.visited_nodes, self.random)
+                if neighbor_select != None:
+                    if neighbor_select == self.node:
+                    # Stay in the current node if it has enough resources
+                        current_agent.available_cpu -= self.cpu_req
+                        current_agent.available_memory -= self.memory_req
+                        self.started = True
+                        # self.executed = True
+                        # self.model.executed_pods += 1
+                        self.arrval_Time = self.model.time + self.TT
+                        self.departure_Time = self.arrval_Time + self.exec_Time
+                    else:
+                    # Attempt to move to a neighboring node with available resources
+                        neighbor_agent = self.model.network.nodes[neighbor_select]['agent']
+                        self.node = neighbor_select
+                        self.visited_nodes.add(self.node)
+                        self.path.append(self.node) 
+                        comm_cost = self.model.comm_costs.get((current_agent.layer, neighbor_agent.layer), 1)
+                        self.TT += comm_cost
+
+            # if self.model.time >= self.departure_Time and self.executed == True:
+            elif self.model.time >= self.departure_Time:
+                current_agent = self.model.network.nodes[self.node]['agent']
+                current_agent.available_cpu += self.cpu_req
+                current_agent.available_memory += self.memory_req
+                self.executed = True
+                self.model.executed_pods += 1
             # self.model.schedule.remove(self) # added this to remove the agent from the schedule after execution
             # but we can also remove the pod agent from the model to achieve the same effect
+        else:
+            pass
     
 '''
 get_small_pod, get_medium_pod, get_large_pod
